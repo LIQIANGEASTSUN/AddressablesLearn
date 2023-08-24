@@ -7,7 +7,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class LoadWithAddress : MonoBehaviour
 {
 
-    private string address = "Assets/Res/Prefab/Cube.prefab";
+    private string address = "Assets/Res/Sphere.prefab";
 
     private AsyncOperationHandle<GameObject> handle;
 
@@ -16,6 +16,12 @@ public class LoadWithAddress : MonoBehaviour
     {
         handle = Addressables.LoadAssetAsync<GameObject>(address);
         handle.Completed += LoadComplete;
+
+        GameObject panel = GameObject.Find("Panel");
+        if (panel)
+        {
+            panel.SetActive(false);
+        }
     }
 
     private void LoadComplete(AsyncOperationHandle<GameObject> handle)
