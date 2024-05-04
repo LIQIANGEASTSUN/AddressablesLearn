@@ -1,8 +1,14 @@
 Project/Library/*
 Project/obj/*
 Project/Temp/*
-
 Project/.vs/*
+
+NewProject/Library/*
+NewProject/obj/*
+NewProject/Temp/*
+NewProject/.vs/*
+
+
 
 *.csproj
 
