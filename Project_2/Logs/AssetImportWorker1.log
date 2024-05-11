@@ -191,3 +191,88 @@ AssetImportParameters requested are different than current active one (requested
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 144671.420506 seconds.
+  path: Assets/AddressableAssetsData/DefaultObject.asset
+  artifactKey: Guid(16d91b8b8e371984abb333232512fe1e) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)
+Start importing Assets/AddressableAssetsData/DefaultObject.asset using Guid(16d91b8b8e371984abb333232512fe1e) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)  -> (artifact id: '7c5c5b7b093086e050272adbf04f6f64') in 0.425867 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 1
+========================================================================
+Received Import Request.
+  Time since last request: 0.000237 seconds.
+  path: Assets/AddressableAssetsData/AssetGroups/Schemas/Packed Assets_ContentUpdateGroupSchema.asset
+  artifactKey: Guid(0830dc5fbf671fe43894a709730bb8dd) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)
+Start importing Assets/AddressableAssetsData/AssetGroups/Schemas/Packed Assets_ContentUpdateGroupSchema.asset using Guid(0830dc5fbf671fe43894a709730bb8dd) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)  -> (artifact id: '0f51a5ce168688cf4a0e0ec1c76f0b87') in 0.201137 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+========================================================================
+Received Import Request.
+  Time since last request: 0.000026 seconds.
+  path: Assets/AddressableAssetsData/AssetGroups/TestGroup.asset
+  artifactKey: Guid(8f56ab8c87e25124a95fbbc55604f2dc) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)
+Start importing Assets/AddressableAssetsData/AssetGroups/TestGroup.asset using Guid(8f56ab8c87e25124a95fbbc55604f2dc) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)  -> (artifact id: '66cfffc46f2f91f2c27f5ba38758b97e') in 0.096549 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+========================================================================
+Received Import Request.
+  Time since last request: 0.000015 seconds.
+  path: Assets/AddressableAssetsData/DataBuilders/BuildScriptFastMode.asset
+  artifactKey: Guid(c4f7eb6aa1165c547acd2d712bb585c6) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)
+Start importing Assets/AddressableAssetsData/DataBuilders/BuildScriptFastMode.asset using Guid(c4f7eb6aa1165c547acd2d712bb585c6) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)  -> (artifact id: 'dab9c2845a99b4309ed5001d17e895c8') in 0.027585 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 1
+========================================================================
+Received Import Request.
+  Time since last request: 0.000016 seconds.
+  path: Assets/AddressableAssetsData/AssetGroups/Schemas/Default Local Group_ContentUpdateGroupSchema.asset
+  artifactKey: Guid(40c4155c851787c4b962c2114e06130e) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)
+Start importing Assets/AddressableAssetsData/AssetGroups/Schemas/Default Local Group_ContentUpdateGroupSchema.asset using Guid(40c4155c851787c4b962c2114e06130e) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)  -> (artifact id: '388fc790a07546468e426ff2e3d6cb72') in 0.021934 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+========================================================================
+Received Import Request.
+  Time since last request: 0.000183 seconds.
+  path: Assets/AddressableAssetsData/AssetGroups/Schemas/TestGroup_ContentUpdateGroupSchema.asset
+  artifactKey: Guid(54d169b3a77b3524e9c04f572f15b3a8) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)
+Start importing Assets/AddressableAssetsData/AssetGroups/Schemas/TestGroup_ContentUpdateGroupSchema.asset using Guid(54d169b3a77b3524e9c04f572f15b3a8) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)  -> (artifact id: 'a10135fd8c596869a23d5ed0ecb9c03a') in 0.076379 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+========================================================================
+Received Import Request.
+  Time since last request: 0.000016 seconds.
+  path: Assets/AddressableAssetsData/DataBuilders/BuildScriptPackedPlayMode.asset
+  artifactKey: Guid(1efc81438363552439c548af590b3a1d) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)
+Start importing Assets/AddressableAssetsData/DataBuilders/BuildScriptPackedPlayMode.asset using Guid(1efc81438363552439c548af590b3a1d) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)  -> (artifact id: 'ee0a2c024afe42310286914155f2b814') in 0.012936 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 1
+========================================================================
+Received Import Request.
+  Time since last request: 0.000033 seconds.
+  path: Assets/AddressableAssetsData/AssetGroups/Packed Assets.asset
+  artifactKey: Guid(50495952ad260794386a77e26f979de0) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)
+Start importing Assets/AddressableAssetsData/AssetGroups/Packed Assets.asset using Guid(50495952ad260794386a77e26f979de0) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)  -> (artifact id: '3bef08f36f5b02efe5e3a4cb8e82b3aa') in 0.021050 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+========================================================================
+Received Import Request.
+  Time since last request: 0.000015 seconds.
+  path: Assets/AddressableAssetsData/DataBuilders/BuildScriptPackedMode.asset
+  artifactKey: Guid(effee52bd53c88645b6180b04b8b94ab) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)
+Start importing Assets/AddressableAssetsData/DataBuilders/BuildScriptPackedMode.asset using Guid(effee52bd53c88645b6180b04b8b94ab) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)  -> (artifact id: '384a8de5b6b3c67daf5b79610ba35222') in 0.012106 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 1
+========================================================================
+Received Import Request.
+  Time since last request: 0.000014 seconds.
+  path: Assets/AddressableAssetsData/AssetGroups/Schemas/Default Local Group_BundledAssetGroupSchema.asset
+  artifactKey: Guid(339266b0ef8d0cd4584730f2dfc81afc) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)
+Start importing Assets/AddressableAssetsData/AssetGroups/Schemas/Default Local Group_BundledAssetGroupSchema.asset using Guid(339266b0ef8d0cd4584730f2dfc81afc) Importer(2089858483,0ecaa5967403d082aa24f35e1b516d23)  -> (artifact id: '19dd72b1b8c740d2c2ed39f17cbecf24') in 0.027183 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 19
+Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
+TcpMessagingSession - receive error: operation aborted. errorcode: 995, details: 由于线程退出或应用程序请求，已中止 I/O 操作。
+AssetImportWorker is now disconnected from the server
+Process exiting
+Exiting without the bug reporter. Application will terminate with return code 0
