@@ -359,3 +359,11 @@ Received Import Request.
 Start importing Assets/AddressableAssetsData/Android using Guid(f61994d838cade3479896fb718e6a112) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b2fac5b8607cc45f3bcaa51c5b22e47c') in 0.004108 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 53.118535 seconds.
+  path: Assets/Rew/Prefab/Cylinder.prefab
+  artifactKey: Guid(0f1ab5c95dc37ae408549895f1dd6aa0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Rew/Prefab/Cylinder.prefab using Guid(0f1ab5c95dc37ae408549895f1dd6aa0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'be539d6514747c2528edbb5987f39db6') in 0.235467 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 7

@@ -32,6 +32,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0f1ab5c95dc37ae408549895f1dd6aa0
+    m_Address: Assets/Rew/Prefab/Cylinder.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 68309e6cf7c83614eb3bf7d105cd83d4, type: 2}
   m_SchemaSet:
