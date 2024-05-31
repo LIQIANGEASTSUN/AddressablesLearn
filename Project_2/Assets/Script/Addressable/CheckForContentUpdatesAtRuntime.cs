@@ -31,4 +31,10 @@ public class CheckForContentUpdatesAtRuntime : MonoBehaviour
     //[public static AsyncOperationHandle<List<IResourceLocator>> UpdateCatalogs(bool autoCleanBundleCache, IEnumerable<string> catalogs = null, bool autoReleaseHandle = true)]
 
 
+    // Unique Bundle IDs setting
+    // If you want to update content at runtime rather than at application startup, use the Unique Bundle IDs setting.Enabling this setting can make it easier to load updated AssetBundles in the middle of an application session, but can make builds slower and updates larger
+    // Assets\AddressableAssetsData\AddressableAssetSettings.asset  -> Build -> Unique Bundle IDs
+
+
+
 }
