@@ -42,11 +42,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9708739568869a04b9b6d5eaca116167
-    m_Address: Assets/Rew/Sprite/card_book_star3.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 68309e6cf7c83614eb3bf7d105cd83d4, type: 2}
   m_SchemaSet:

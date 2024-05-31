@@ -3,6 +3,7 @@ using UnityEditor.AddressableAssets.Build;
 using UnityEditor.AddressableAssets.Settings;
 using System;
 using UnityEngine;
+using UnityEditor.Build.Pipeline.Utilities;
 
 
 /*
@@ -56,8 +57,6 @@ public class AddressableEditor : Editor
                              $"active. Using last run builder instead.");
     }
 
-
-
     static bool buildAddressableContent()
     {
         AddressableAssetSettings.BuildPlayerContent(out AddressablesPlayerBuildResult result);
@@ -77,13 +76,13 @@ public class AddressableEditor : Editor
     {
         getSettingsObject(settings_asset);
         setProfile(profile_name);
-        //IDataBuilder builderScript = AssetDatabase.LoadAssetAtPath<ScriptableObject>(build_script) as IDataBuilder;
-        //if (builderScript == null)
-        //{
-        //    Debug.LogError(build_script + " couldn't be found or isn't a build script.");
-        //    return false;
-        //}
-       //etBuilder(builderScript);
+        IDataBuilder builderScript = AssetDatabase.LoadAssetAtPath<ScriptableObject>(build_script) as IDataBuilder;
+        if (builderScript == null)
+        {
+            Debug.LogError(build_script + " couldn't be found or isn't a build script.");
+            return false;
+        }
+        setBuilder(builderScript);
 
         return buildAddressableContent();
     }
@@ -100,6 +99,13 @@ public class AddressableEditor : Editor
 
             BuildPipeline.BuildPlayer(playerSettings);
         }
+    }
+
+    // «Â¿Ìª∫¥Ê
+    [MenuItem("Window/Asset Management/Addressables/BuildCache")]
+    public static void Clean()
+    {
+        BuildCache.PurgeCache(true);
     }
 }
 #endif
