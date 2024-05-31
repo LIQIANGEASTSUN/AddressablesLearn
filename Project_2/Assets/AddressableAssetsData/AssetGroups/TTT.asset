@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: TTT
+  m_EditorClassIdentifier: 
+  m_GroupName: TTT
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 6ee7dbc3885944940b15ef1b3275be58
+  m_SerializeEntries:
+  - m_GUID: bd7350a7facc2fb48b9be9d2df749e17
+    m_Address: Assets/Rew/Sprite/byn_ymtg_xipai.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5210329276f0d4947a6d71a10782ba91
+    m_Address: Assets/Rew/Sprite/card_book_star1.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 68309e6cf7c83614eb3bf7d105cd83d4, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 171aa5ef7ffcb0148a1359e9c5fa49aa, type: 2}
+    - {fileID: 11400000, guid: bd2b622421187524d83a34745e55c137, type: 2}
