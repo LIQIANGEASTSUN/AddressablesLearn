@@ -37,4 +37,10 @@ public class CheckForContentUpdatesAtRuntime : MonoBehaviour
 
 
 
+    // 预加载
+    // Addressables.DownloadDependenciesAsync
+
+    // 下载资源大小
+    //  Addressables.GetDownloadSize
+
 }

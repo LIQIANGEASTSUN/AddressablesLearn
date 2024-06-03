@@ -71,7 +71,7 @@ public class AddressableEditor : Editor
     }
 
 
-    [MenuItem("Window/Asset Management/Addressables/Build Addressables only")]
+    [MenuItem("Window/Asset Management/Addressables/Custom/Build Addressables only")]
     public static bool BuildAddressables()
     {
         getSettingsObject(settings_asset);
@@ -87,7 +87,7 @@ public class AddressableEditor : Editor
         return buildAddressableContent();
     }
 
-    [MenuItem("Window/Asset Management/Addressables/Build Addressables and Player")]
+    [MenuItem("Window/Asset Management/Addressables/Custom/Build Addressables and Player")]
     public static void BuildAddressablesAndPlayer()
     {
         bool contentBuildSucceeded = BuildAddressables();
@@ -102,7 +102,7 @@ public class AddressableEditor : Editor
     }
 
     // «Â¿Ìª∫¥Ê
-    [MenuItem("Window/Asset Management/Addressables/BuildCache")]
+    [MenuItem("Window/Asset Management/Addressables/Custom/BuildCache")]
     public static void Clean()
     {
         BuildCache.PurgeCache(true);
