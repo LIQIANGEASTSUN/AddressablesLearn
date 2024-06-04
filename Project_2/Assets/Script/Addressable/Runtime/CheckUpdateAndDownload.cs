@@ -44,9 +44,8 @@ public class CheckUpdateAndDownload : MonoBehaviour
     // 需要更新的 Catlog 文件
     private List<string> updateCatlogList = new List<string>();
     private AsyncOperationHandle<List<IResourceLocator>> updateCatalogHandle;
-    private IList<IResourceLocator> downloadList;
-    private List<object> keyList = new List<object>();
-
+    private IList<IResourceLocator> downloadLocatorList;
+    private List<object> downloadKeyList = new List<object>();
     public IEnumerator StartUpdate()
     {
         yield return InitializeAsync();
@@ -102,15 +101,6 @@ public class CheckUpdateAndDownload : MonoBehaviour
         Addressables.Release(checkCatalogHandle);
     }
 
-    private bool CheckOperationStatus(AsyncOperationStatus status, string source, System.Exception exception)
-    {
-        if (this.status != AsyncOperationStatus.Succeeded)
-        {
-            DebugError(source + "  Error:" + exception.ToString());
-        }
-        return status == AsyncOperationStatus.Succeeded;
-    }
-
     public IEnumerator UpdateCatalogs()
     {
         // 没有需要更新的 Catalog
@@ -122,7 +112,7 @@ public class CheckUpdateAndDownload : MonoBehaviour
         // 更新 Catalog 文件
         updateCatalogHandle = Addressables.UpdateCatalogs(updateCatlogList);
         yield return updateCatalogHandle;
-        downloadList = new List<IResourceLocator>(updateCatalogHandle.Result);
+        downloadLocatorList = new List<IResourceLocator>(updateCatalogHandle.Result);
         status = updateCatalogHandle.Status;
         operationException = updateCatalogHandle.OperationException;
         Addressables.Release(updateCatalogHandle);
@@ -132,7 +122,7 @@ public class CheckUpdateAndDownload : MonoBehaviour
     {
         // 获取下载资源总大小
         long totalDownloadSize = 0;
-        foreach (var locator in downloadList)
+        foreach (var locator in downloadLocatorList)
         {
             // 获取下载的文件大小
             AsyncOperationHandle<long> sizeHandle = Addressables.GetDownloadSizeAsync(locator.Keys);
@@ -148,7 +138,7 @@ public class CheckUpdateAndDownload : MonoBehaviour
             if (sizeHandle.Result > 0)
             {
                 totalDownloadSize += sizeHandle.Result;
-                keyList.AddRange(locator.Keys);
+                downloadKeyList.AddRange(locator.Keys);
             }
             Addressables.Release(sizeHandle);
         }
@@ -158,12 +148,14 @@ public class CheckUpdateAndDownload : MonoBehaviour
     private IEnumerator DownloadDependenciesAsync()
     {
         // 下载更新资源
-        AsyncOperationHandle downloadHandle = Addressables.DownloadDependenciesAsync(keyList);
+        AsyncOperationHandle downloadHandle = Addressables.DownloadDependenciesAsync(downloadKeyList);
         while (!downloadHandle.IsDone)
         {
             if (downloadHandle.Status == AsyncOperationStatus.Failed)
             {
                 DebugError("DownloadDependenciesAsync Error:" + downloadHandle.OperationException.ToString());
+                status = downloadHandle.Status;
+                operationException = downloadHandle.OperationException;
                 Addressables.Release(downloadHandle);
                 yield break;
             }
@@ -187,8 +179,16 @@ public class CheckUpdateAndDownload : MonoBehaviour
         yield return downloadHandle;
         Addressables.Release(downloadHandle);
         status = downloadHandle.Status;
+        operationException = downloadHandle.OperationException;
+    }
 
-
+    private bool CheckOperationStatus(AsyncOperationStatus status, string source, System.Exception exception)
+    {
+        if (this.status != AsyncOperationStatus.Succeeded)
+        {
+            DebugError(source + "  Error:" + exception.ToString());
+        }
+        return status == AsyncOperationStatus.Succeeded;
     }
 
     private void DebugError(string message)
