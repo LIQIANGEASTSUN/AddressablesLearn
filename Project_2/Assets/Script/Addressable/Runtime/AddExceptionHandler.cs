@@ -9,6 +9,7 @@ public class AddExceptionHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Òì³£¼àÌý
         ResourceManager.ExceptionHandler = CustomExceptionHandler;
     }
 

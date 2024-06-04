@@ -3,60 +3,118 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.Exceptions;
 using UnityEngine.ResourceManagement.ResourceLocations;
 
 public class LoadWithAddress : MonoBehaviour
 {
-    // Assign in Editor or in code
-    public string address;
-
-    // Retain handle to release asset and operation
-    private AsyncOperationHandle<GameObject> handle;
-
     // Start the load operation on start
-    void StartTTT()
+    void LoadAssetAsync1()
     {
-        handle = Addressables.LoadAssetAsync<GameObject>(address);
+        // Assign in Editor or in code
+        string address = "DDDD/DDD/DSDS.prefab";
+        // Retain handle to release asset and operation
+        // 异步加载单个资源，可以使用 address、Label
+        AsyncOperationHandle <GameObject> handle = Addressables.LoadAssetAsync<GameObject>(address);
         handle.Completed += Handle_Completed;
     }
 
-    async void StartTTT2()
-    {
-        handle = Addressables.LoadAssetAsync<GameObject>(address);
-        // 使用 await 在同一帧等待
-        await handle.Task;
-        Instantiate(handle.Result, transform);
-    }
-
     // Instantiate the loaded prefab on complete
-    private void Handle_Completed(AsyncOperationHandle<GameObject> operation)
+    private void Handle_Completed(AsyncOperationHandle<GameObject> handle)
     {
-        if (operation.Status == AsyncOperationStatus.Succeeded)
+        if (handle.Status == AsyncOperationStatus.Succeeded)
         {
-            Instantiate(operation.Result, transform);
+            GameObject obj = handle.Result;
+            Instantiate(obj, transform);
         }
         else
         {
-            Debug.LogError($"Asset for {address} failed to load.");
+            Debug.LogError($"Asset for {handle.DebugName} failed to load.");
+            DownloadError(handle);
+            Addressables.Release(handle);
         }
     }
 
-    public List<string> keys = new List<string>() { "characters", "animals" };
-    private void LoadWithLabel()
+    async void LoadAssetAsync2()
     {
+        // Assign in Editor or in code
+        string address = "DDDD/DDD/DSDS.prefab";
+        // Retain handle to release asset and operation
+        // 异步加载单个资源，可以使用 address、Label
+        AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(address);
+        // 使用 await 在同一帧等待
+        await handle.Task;
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            GameObject obj = handle.Result;
+            Instantiate(obj, transform);
+        }
+        else
+        {
+            DownloadError(handle);
+            Addressables.Release(handle);
+        }
+    }
+
+    private IEnumerator LoadAssetAsync3()
+    {
+        // Assign in Editor or in code
+        string address = "DDDD/DDD/DSDS.prefab";
+        // Retain handle to release asset and operation
+        // 异步加载单个资源，可以使用 address、Label
+        AsyncOperationHandle<GameObject> handle = Addressables.LoadAssetAsync<GameObject>(address);
+        if (!handle.IsDone)
+        {
+            yield return handle;
+        }
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            GameObject obj = handle.Result;
+            Instantiate(obj, transform);
+        }
+        else
+        {
+            DownloadError(handle);
+            Addressables.Release(handle);
+        }
+    }
+
+    // 加载失败，出现异常时打印错误信息
+    private void DownloadError(AsyncOperationHandle handle)
+    {
+        if (handle.Status == AsyncOperationStatus.Failed)
+        {
+            return;
+        }
+
+        System.Exception ex = handle.OperationException;
+        while (ex != null)
+        {
+            RemoteProviderException remoteException = ex as RemoteProviderException;
+            if (remoteException != null)
+            {
+                string error = remoteException.WebRequestResult.Error;
+                break;
+            }
+            ex = ex.InnerException;
+        }
+    }
+
+    private IEnumerator LoadWithLabel()
+    {
+        // 使用 key 加载多个资源
+        List<string> keys = new List<string>() { "characters", "animals" };
         AsyncOperationHandle<IList<GameObject>> loadHandle;
         float x = 0, z = 0;
         loadHandle = Addressables.LoadAssetsAsync<GameObject>(
             keys, // Either a single key or a List of keys 
             addressable =>
             {
-                    //Gets called for every loaded asset
-                    if (addressable != null)
+                //Gets called for every loaded asset
+                if (addressable != null)
                 {
-                    Instantiate<GameObject>(addressable,
-                        new Vector3(x++ * 2.0f, 0, z * 2.0f),
-                        Quaternion.identity,
-                        transform);
+                    Vector3 position = new Vector3(x++ * 2.0f, 0, z * 2.0f);
+                    Instantiate<GameObject>(addressable, position, Quaternion.identity, transform);
                     if (x > 9)
                     {
                         x = 0;
@@ -65,22 +123,24 @@ public class LoadWithAddress : MonoBehaviour
                 }
             }, Addressables.MergeMode.Union, // How to combine multiple labels 
             false); // Whether to fail if any asset fails to lo
-    }
 
-    // 使用 Label 加载每个资源的 IResourceLocation，然后通过 IResourceLocation 加载每一个资源
-    Dictionary<string, GameObject> _preloadedObjects = new Dictionary<string, GameObject>();
-    private IEnumerator PreloadHazardsWithLabel()
+        yield return loadHandle;
+    }
+    
+    private IEnumerator LoadWithLabel2()
     {
+        // 使用 Label 加载每个资源的 IResourceLocation，然后通过 IResourceLocation 加载每一个资源
+        Dictionary<string, GameObject> _preloadedObjects = new Dictionary<string, GameObject>();
         //find all the locations with label "SpaceHazards"
-        var loadResourceLocationsHandle
-            = Addressables.LoadResourceLocationsAsync("SpaceHazards", typeof(GameObject));
+        var loadResourceLocationsHandle = Addressables.LoadResourceLocationsAsync("SpaceHazards", typeof(GameObject));
 
         if (!loadResourceLocationsHandle.IsDone)
+        { 
             yield return loadResourceLocationsHandle;
+        }
 
         //start each location loading
         List<AsyncOperationHandle> opList = new List<AsyncOperationHandle>();
-
         foreach (IResourceLocation location in loadResourceLocationsHandle.Result)
         {
             AsyncOperationHandle<GameObject> loadAssetHandle = Addressables.LoadAssetAsync<GameObject>(location);
@@ -103,41 +163,36 @@ public class LoadWithAddress : MonoBehaviour
         }
     }
 
-    AsyncOperationHandle<GameObject> opHandle;
-
-    public IEnumerator StartLoad()
+    private void LoadWithLabel3()
     {
-        opHandle = Addressables.LoadAssetAsync<GameObject>(address);
+        // 使用 Label 加载每个资源的 IResourceLocation，然后通过 IResourceLocation 加载每一个资源
+        Dictionary<string, GameObject> _preloadedObjects = new Dictionary<string, GameObject>();
+        //find all the locations with label "SpaceHazards"
+        var loadResourceLocationsHandle = Addressables.LoadResourceLocationsAsync("SpaceHazards", typeof(GameObject));
+        loadResourceLocationsHandle.Completed += OnLoadComplete3;
+    }
 
-        // yielding when already done still waits until the next frame
-        // so don't yield if done.
-        if (!opHandle.IsDone)
+    private void OnLoadComplete3(AsyncOperationHandle<IList<IResourceLocation>> handle)
+    {
+        foreach (IResourceLocation location in handle.Result)
         {
-            yield return opHandle;
-        }
-
-        if (opHandle.Status == AsyncOperationStatus.Succeeded)
-        {
-            Instantiate(opHandle.Result, transform);
-        }
-        else
-        {
-            Addressables.Release(opHandle);
+            AsyncOperationHandle<GameObject> loadAssetHandle = Addressables.LoadAssetAsync<GameObject>(location);
+            loadAssetHandle.Completed += obj => {
+                GameObject go = obj.Result;
+                Instantiate(go);
+            };
         }
     }
 
-    // Operation handle used to load and release assets
-    AsyncOperationHandle<IList<GameObject>> loadHandle;
-
-    public async void StartSSS()
+    public async void LoadWithLabel4()
     {
-        loadHandle = Addressables.LoadAssetsAsync<GameObject>(
+        // 使用 key 加载多个资源
+        List<string> keys = new List<string>() { "characters", "animals" };
+        // Operation handle used to load and release assets
+        AsyncOperationHandle<IList<GameObject>>  loadHandle = Addressables.LoadAssetsAsync<GameObject>(
             keys, // Either a single key or a List of keys 
-            addressable =>
-            {
-                // Called for every loaded asset
-                Debug.Log(addressable.name);
-            }, Addressables.MergeMode.Union, // How to combine multiple labels 
+            null, 
+            Addressables.MergeMode.Union, // How to combine multiple labels 
             false); // Whether to fail if any asset fails to load
 
         // Wait for the operation to finish in the background
@@ -162,9 +217,11 @@ public class LoadWithAddress : MonoBehaviour
             }
         }
     }
-    public IEnumerator Startttttt()
+    public IEnumerator LoadWithLabel5()
     {
-        loadHandle = Addressables.LoadAssetsAsync<GameObject>(
+        // 使用 key 加载多个资源
+        List<string> keys = new List<string>() { "characters", "animals" };
+        AsyncOperationHandle<IList<GameObject>> loadHandle = Addressables.LoadAssetsAsync<GameObject>(
             keys, // Either a single key or a List of keys 
             addressable =>
             {
@@ -177,16 +234,7 @@ public class LoadWithAddress : MonoBehaviour
 
         if (!loadHandle.IsDone)
         {
-            DownloadStatus downloadStatus = opHandle.GetDownloadStatus();
-            long loadBytes = downloadStatus.DownloadedBytes;
-            long total = downloadStatus.TotalBytes;
-            // 下载总字节的百分比
-            float percent = downloadStatus.Percent;
-            // 比如总共下载 5 个资源，不管每个资源的字节多少，只按照 比例每一个资源占 20%
-            // 比如 下载完成了 3 个 则返回 2 * 20% = 60%
-            float percentComplete = opHandle.PercentComplete;
             // 注意：当使用 LoadAssetsAsync 加载一个资源时，上面的数据并不一定正确
-
             yield return loadHandle;
         }
 
@@ -225,7 +273,13 @@ public class LoadWithAddress : MonoBehaviour
     // Release asset when parent object is destroyed
     private void OnDestroy()
     {
-        Addressables.Release(handle);
-        Addressables.Release(loadHandle);
+        //Addressables.Release(handle);
+        //Addressables.Release(loadHandle);
+
+        // 切场景时 Unity 自动调用下面方法
+        //Resources.UnloadUnusedAssets();
+        //Resources.UnloadAsset();
     }
+
+
 }
