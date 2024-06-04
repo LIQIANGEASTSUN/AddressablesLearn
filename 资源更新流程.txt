@@ -1,0 +1,29 @@
+进入游戏登录场景
+
+拉取服务器信息，对比服务器版本，有新版本则准备更新
+
+从服务器获取最新资源地址和catalog名称
+
+顺序如下
+CheckForCatalogUpdates    -> 检测Catalog更新；
+UpdateCatalogs            -> 下载Catalogs文件；
+GetDownloadSizeAsync      -> 获取更新资源大小；
+DownloadDependenciesAsync -> 下载更新资源；
+
+使用Addressables.GetDownloadSizeAsync(key)和Addressables.DownloadDependenciesAsync(key)接口进行更新资源大小的计算和资源下载，其中key我们使用label进行全部资源的检查，更简单些。
+
+更新本地版本号
+
+卸载内存旧资源（包括Lua代码的缓存）
+
+重新加载登录场景
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,78 @@
+
+
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using System.Collections.Generic;
+ 
+public class AddressableHotUpdateExample : MonoBehaviour
+{
+    // 更新资源的回调
+    private Action<DownloadStatus> updateResourceCallback;
+ 
+    void Start()
+    {
+        // 初始化更新回调
+        updateResourceCallback = new Action<DownloadStatus>(OnUpdateResourceComplete);
+ 
+        // 检查并更新资源
+        CheckAndUpdateResources();
+    }
+ 
+    // 检查并更新资源
+    private void CheckAndUpdateResources()
+    {
+        // 获取资源的异步操作
+        AsyncOperationHandle<List<IResourceLocator>> updateResourceListOp = Addressables.CheckForCatalogUpdates(false);
+ 
+        // 注册回调
+        updateResourceListOp.Completed += OnUpdateResourceListComplete;
+    }
+ 
+    // 资源列表更新完毕的回调
+    private void OnUpdateResourceListComplete(AsyncOperationHandle<List<IResourceLocator>> obj)
+    {
+        if (obj.Status == AsyncOperationStatus.Succeeded)
+        {
+            // 获取更新资源的异步操作
+            AsyncOperationHandle downloadOp = Addressables.UpdateCatalogs(updateResourceCallback);
+ 
+            // 注册回调
+            downloadOp.Completed += OnUpdateCatalogComplete;
+        }
+        else
+        {
+            Debug.LogError("CheckForCatalogUpdates failed!");
+        }
+    }
+ 
+    // 更新资源目录完毕的回调
+    private void OnUpdateCatalogComplete(AsyncOperationHandle obj)
+    {
+        if (obj.Status == AsyncOperationStatus.Succeeded)
+        {
+            Debug.Log("UpdateCatalogs Succeeded!");
+            // 这里可以继续进行资源的加载和使用
+        }
+        else
+        {
+            Debug.LogError("UpdateCatalogs failed!");
+        }
+    }
+ 
+    // 单个资源更新完毕的回调
+    private void OnUpdateResourceComplete(DownloadStatus status)
+    {
+        if (status.IsDone)
+        {
+            if (status.DidFail)
+            {
+                Debug.LogError("Update resource failed: " + status.Result.Key);
+            }
+            else
+            {
+                Debug.Log("Update resource succeeded: " + status.Result.Key);
+            }
+        }
+    }
+}
