@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class IenumeratorTest : MonoBehaviour
 {
+
+    private List<int> list_a = new List<int>() { 6, 3, 9, 4, 5};
+    private List<int> list_b = new List<int>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +32,15 @@ public class IenumeratorTest : MonoBehaviour
     private IEnumerator Func1()
     {
         Debug.LogError("Func1 Start");
+        for (int i = 0; i < 10; ++i)
+        {
+            if (i > 5)
+            {
+                yield break;
+            }
+            Debug.LogError(i);
+        }
+
         yield return new WaitForSeconds(1);
         Debug.LogError("Func1 End");
     }

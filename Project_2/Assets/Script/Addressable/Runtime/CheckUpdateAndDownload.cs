@@ -43,41 +43,37 @@ public class CheckUpdateAndDownload : MonoBehaviour
 
     // 需要更新的 Catlog 文件
     private List<string> updateCatlogList = new List<string>();
-    private AsyncOperationHandle<List<IResourceLocator>> updateCatalogHandle;
+
+    // 需要下载的资源文件信息
     private IList<IResourceLocator> downloadLocatorList;
+
+    // 需要下载的资源文件总大小
+    private long totalDownloadSize = 0;
+
+    // 需要下载/更新的资源文件
     private List<object> downloadKeyList = new List<object>();
+
+    // 下载进度
+    private DownloadStatus downloadStatus;
+
     public IEnumerator StartUpdate()
     {
         yield return InitializeAsync();
-        if (!CheckOperationStatus(status, "InitializeAsync", operationException)) {
-            yield break;
-        }
+        if (!CheckOperationStatus("InitializeAsync")) yield break;
 
         yield return CheckForCatalogUpdates();
-        if (!CheckOperationStatus(status, "CheckForCatalogUpdates", operationException))
-        {
-            yield break;
-        }
+        if (!CheckOperationStatus("CheckForCatalogUpdates")) yield break;
 
         yield return UpdateCatalogs();
-        if (!CheckOperationStatus(status, "UpdateCatalogs", operationException))
-        {
-            yield break;
-        }
+        if (!CheckOperationStatus("UpdateCatalogs")) yield break;
 
         yield return GetDownloadSizeAsync();
-        if (!CheckOperationStatus(status, "GetDownloadSizeAsync", operationException))
-        {
-            yield break;
-        }
+        if (!CheckOperationStatus("GetDownloadSizeAsync")) yield break;
 
         yield return DownloadDependenciesAsync();
+        if (!CheckOperationStatus("DownloadDependenciesAsync")) yield break;
 
-        if (status == AsyncOperationStatus.Succeeded)
-        {
-            // 下载完毕，开始游戏逻辑
-        }
-
+        Debug.Log("下载完毕，开始游戏逻辑");
     }
 
     // 初始化调用
@@ -110,7 +106,7 @@ public class CheckUpdateAndDownload : MonoBehaviour
         }
 
         // 更新 Catalog 文件
-        updateCatalogHandle = Addressables.UpdateCatalogs(updateCatlogList);
+        AsyncOperationHandle<List<IResourceLocator>> updateCatalogHandle = Addressables.UpdateCatalogs(updateCatlogList);
         yield return updateCatalogHandle;
         downloadLocatorList = new List<IResourceLocator>(updateCatalogHandle.Result);
         status = updateCatalogHandle.Status;
@@ -121,7 +117,6 @@ public class CheckUpdateAndDownload : MonoBehaviour
     private IEnumerator GetDownloadSizeAsync()
     {
         // 获取下载资源总大小
-        long totalDownloadSize = 0;
         foreach (var locator in downloadLocatorList)
         {
             // 获取下载的文件大小
@@ -153,7 +148,6 @@ public class CheckUpdateAndDownload : MonoBehaviour
         {
             if (downloadHandle.Status == AsyncOperationStatus.Failed)
             {
-                DebugError("DownloadDependenciesAsync Error:" + downloadHandle.OperationException.ToString());
                 status = downloadHandle.Status;
                 operationException = downloadHandle.OperationException;
                 Addressables.Release(downloadHandle);
@@ -161,32 +155,32 @@ public class CheckUpdateAndDownload : MonoBehaviour
             }
 
             // 下载进度
-            DownloadStatus downloadStatus = downloadHandle.GetDownloadStatus();
-            // 获取下载资源的字节数
-            long loadBytes = downloadStatus.DownloadedBytes;
-            // 获取下载资源的总字节数
-            long total = downloadStatus.TotalBytes;
-            // 下载总字节的百分比，比如总共下载 6 个资源，第一个资源的字节总数占比为 50%
-            // 则下载完成第一个资源的时候，该操作已完成了 50%
-            float percent = downloadStatus.Percent;
+            downloadStatus = downloadHandle.GetDownloadStatus();
+            //// 获取下载资源的字节数
+            //long loadBytes = downloadStatus.DownloadedBytes;
+            //// 获取下载资源的总字节数
+            //long total = downloadStatus.TotalBytes;
+            //// 下载总字节的百分比，比如总共下载 6 个资源，第一个资源的字节总数占比为 50%
+            //// 则下载完成第一个资源的时候，该操作已完成了 50%
+            //float percent = downloadStatus.Percent;
             // 比如总共下载 5 个资源，不管每个资源的字节多少，只按照 比例每一个资源占 20%
             // 比如 下载完成了 3 个 则返回 2 * 20% = 60%
-            float percentComplete = downloadHandle.PercentComplete;
+            //float percentComplete = downloadHandle.PercentComplete;
 
             yield return null;
         }
 
         yield return downloadHandle;
-        Addressables.Release(downloadHandle);
         status = downloadHandle.Status;
         operationException = downloadHandle.OperationException;
+        Addressables.Release(downloadHandle);
     }
 
-    private bool CheckOperationStatus(AsyncOperationStatus status, string source, System.Exception exception)
+    private bool CheckOperationStatus(string source)
     {
         if (this.status != AsyncOperationStatus.Succeeded)
         {
-            DebugError(source + "  Error:" + exception.ToString());
+            DebugError(source + "  Error:" + operationException.ToString());
         }
         return status == AsyncOperationStatus.Succeeded;
     }
